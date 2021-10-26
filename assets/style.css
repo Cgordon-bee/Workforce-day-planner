@@ -2,8 +2,12 @@ body {
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
     line-height: 1;
+    
   }
   
+  
+
+
   textarea {
     background: transparent;
     border: none;
@@ -14,20 +18,22 @@ body {
   }
   
   .jumbotron {
+    display:block;
     text-align: center;
     background-color: transparent;
     color: black;
     border-radius: 0;
-    border-bottom: 10px solid black;
+    border-bottom: 10px solid rgb(134, 125, 125);
   }
   
   .description {
     white-space: pre-wrap;
   }
   
-  .time-block {
+  .time-block{
     text-align: center;
     border-radius: 15px;
+    
   }
   
   .row {
@@ -59,13 +65,20 @@ body {
   
   .saveBtn {
     border-left: 1px solid black;
-    border-top-right-radius: 15px;
+    border-top-right-radius: 20px;
     border-bottom-right-radius: 15px;
-    background-color: #06aed5;
+    background-color: #06d517;
     color: white;
+    
+  
   }
   
   .saveBtn i:hover {
     font-size: 20px;
     transition: all 0.3s ease-in-out;
+  }
+s
+  .col-1 hour {
+border-width: 16px;
+
   }
