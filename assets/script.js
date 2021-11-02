@@ -1,67 +1,49 @@
-// add coding here 
 
-var rootEl = $("#root");
-var HourBackground = $("textarea");
-var content = $("description");
-var Save = $("fa-save");
 
-//Page Clock
-function Time() {
-    var RightNow = moment().format("dddd, MMMM Do YYYY, h:mm:ss a");
-    $("#currentDay").text(RightNow);
-}
-setInterval(Time, 1000);
-
-//Time Color selector
-var today = moment();
-var CurrentHour = today.format("H");
-function UpdateTimeColor() {
-    var startingHour = 9;
-    for(i=0; i < 9; i++) {
-        if (startingHour < CurrentHour) {
-            HourBackground.eq(i).addClass("past");
-        } else if (startingHour == CurrentHour) {
-            HourBackground.eq(i).addClass("present");
-        } else if (startingHour > CurrentHour) {
-            HourBackground.eq(i).addClass("future");
-        }
-        startingHour++;
-        rootEl.append(HourBackground);
+$(document).ready(function () {
+    var keys = Object.keys(localStorage);
+    for (let i = 0; i < keys.length; i++) {
+        var value = localStorage.getItem(keys[i]);
+        var temp = $("#" + keys[i]).find("textarea")
+        temp.val(value);
     }
-}
+    $(".saveBtn").on("click", function (event) {
+        event.preventDefault();
+        console.log(this);
+        var value = $(this).siblings(".description").val();
+        var time = $(this).parent().attr("id");
 
-function SaveData () {
-    // console.log("Hello World");
-    var UserText = ($(this)).siblings(".description").val();
-    var UserKey = ($(this)).parent("div").attr("id");
-    window.localStorage.setItem(UserKey, UserText);
-};
+        localStorage.setItem(time, value);
+    });
 
-function loadSave() {
-    var Hours = [
-        "hour-9", 
-        "hour-10", 
-        "hour-11", 
-        "hour-12", 
-        "hour-13", 
-        "hour-14", 
-        "hour-15", 
-        "hour-16", 
-        "hour-17", 
-    ];
-    for(i=0; i < 9; i++) {
-        var LastInput = window.localStorage.getItem(Hours[i]);
-        if(LastInput == null) return;
-        console.log(LastInput);
-        $("#" + Hours[i] + " > textarea").val(LastInput);
+
+    $("#currentDay").text(moment().format("LLL"));
+    function timeFrame() {
+        var currentHours = moment().hours();
+
+        $(".time-block").each(function () {
+            var hourEl = $(this).attr("id");
+            var hourDay = hourEl.substring(5, hourEl.length);
+            var intHourDay = parseInt(hourDay)
+            var intCurrentHours = parseInt(currentHours);
+            if (parseInt(intHourDay) < parseInt(intCurrentHours)) {
+                $(this).addClass("past");
+                $(this).removeClass("future");
+                $(this).removeClass("present");
+            }
+            else if (parseInt(intHourDay) > parseInt(intCurrentHours)) {
+                $(this).addClass("future");
+                $(this).removeClass("present");
+                $(this).removeClass("past");
+            }
+            else if (parseInt(intHourDay) === parseInt(intCurrentHours)) {
+                $(this).addClass("present");
+                $(this).removeClass("future");
+                $(this).removeClass("past");
+            }
+        })
     };
+    timeFrame()
+
     
-}
-
-content.text("Hello");
-UpdateTimeColor();
-loadSave()
-$(".saveBtn").on("click", SaveData);
-
-
-
+})
